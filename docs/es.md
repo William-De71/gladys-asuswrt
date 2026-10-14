@@ -1,0 +1,98 @@
+# ASUSWRT
+
+## Presentación
+
+Esta integración lleva un **router ASUS** a Gladys: firmware ASUSWRT original o Asuswrt-Merlin, desde los modelos RT-AC hasta los últimos routers Wi-Fi 7. Lee el router a través de su propia interfaz web, en su red local, cada 30 segundos:
+
+- el **router**: uso de CPU y memoria, temperaturas, tiempo en marcha, velocidades de Internet, estado de Internet, dirección WAN, clientes conectados, firmware;
+- sus **radios Wi-Fi**, como interruptores;
+- los **dispositivos de su red**, como sensores de presencia: sepa quién está en casa gracias a los teléfonos conectados al Wi-Fi.
+
+También aporta disparadores de escena (Internet caído o restablecido, dispositivo llegó o se fue, nuevo dispositivo en la red, router reiniciado, actualización disponible), acciones de escena (leer el estado, reiniciar un servicio, buscar una actualización, reiniciar) y tres widgets del panel.
+
+![Los tres widgets de la integración: resumen del router ASUS, enlace a Internet y dispositivos de red (ilustración generada, no una captura de pantalla)](https://raw.githubusercontent.com/William-De71/gladys-asuswrt/main/docs/assets/widgets.es.png)
+
+La imagen de arriba es una ilustración generada, no una captura de pantalla.
+
+## Requisitos
+
+- Gladys Assistant 5.1.0 o posterior.
+- Un router ASUS en modo router, con la interfaz web ASUSWRT (firmware original 3.0.0.4.386 o posterior, 3.0.0.6, o Asuswrt-Merlin). La integración habla con el router principal: los nodos AiMesh se excluyen de la lista de clientes, el router principal conoce todos los clientes.
+- La cuenta de administrador del router (la de su interfaz web). La integración inicia sesión como la app ASUS Router: no le cierra la sesión de la interfaz web.
+- Gladys debe llegar al router: su dirección en la red local (`192.168.50.1`, `192.168.1.1`, `router.asus.com`). Si activó HTTPS para el acceso local (**Administración > Sistema > Configuración de acceso local**), escriba `https://` y su puerto (8443 por defecto).
+
+## Configuración
+
+| Campo                         | Descripción                                                                                                             |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Dirección del router          | `192.168.50.1` (se añade http://), o `https://192.168.50.1:8443` con HTTPS.                                             |
+| Nombre de usuario             | La cuenta de administrador del router.                                                                                  |
+| Contraseña                    | Su contraseña. Tras varios intentos fallidos el router bloquea el inicio de sesión unos minutos.                        |
+| Verificar el certificado      | Solo HTTPS. Déjelo sin marcar con el certificado autofirmado del router.                                                |
+| Intervalo de lectura (s)      | De 10 a 300 segundos, 30 por defecto.                                                                                   |
+| Dispositivos de red ofrecidos | Los que tienen nombre (por defecto), todos o ninguno.                                                                   |
+| Retardo de ausencia (min)     | Un dispositivo está ausente tras este tiempo sin conexión. 5 por defecto: un teléfono en reposo sale del Wi-Fi un rato. |
+| Idioma de los textos          | Nombres, estados y resúmenes de escenas. Automático: el idioma de su panel, en cuanto se haya mostrado un widget.       |
+
+Haga clic en **Probar la conexión**: aparecen el modelo y el firmware del router. **Olvidar dispositivos conocidos** convierte los dispositivos presentes en la referencia del disparador «nuevo dispositivo».
+
+## Uso
+
+### Dispositivos
+
+Abra **Descubrir** en la integración y añada los dispositivos que desee:
+
+| Dispositivo        | Funciones                                                                                                                                                          |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Router ASUS        | Uso de CPU y memoria (%), temperaturas (CPU y cada radio que indica el router), tiempo en marcha, descarga y subida (Mbit/s), Internet, IP WAN, clientes, firmware |
+| Radio Wi-Fi        | Un interruptor: enciende o apaga la radio de una banda                                                                                                             |
+| Dispositivo de red | Presencia: 1 mientras está conectado, 0 cuando lleva ausente el retardo de ausencia                                                                                |
+
+Las velocidades son las del enlace a Internet, medidas entre dos lecturas: aparecen a partir de la segunda lectura.
+
+### Presencia de los dispositivos
+
+Un dispositivo está presente en cuanto el router lo indica en línea, y ausente cuando lleva fuera el retardo de ausencia. Mientras está presente, su presencia se envía de nuevo cada minuto, como la presencia Bluetooth de Gladys: la acción «comprobar presencia» de una escena funciona con ella. Ponga nombre a los teléfonos en el router (**Mapa de red > Clientes**) para encontrarlos fácilmente: por defecto, solo se ofrecen los dispositivos con nombre.
+
+### Radios Wi-Fi
+
+Apagar o encender una radio hace que el router reinicie su Wi-Fi: todas las bandas se cortan unos segundos y luego los dispositivos se reconectan. Una radio apagada desde la interfaz del router aparece en Gladys en la lectura siguiente.
+
+### Widgets del panel
+
+- **Router ASUS**: indicadores de CPU y memoria, temperatura, clientes conectados, Internet, tiempo en marcha, firmware y dos botones: **Comprobar firmware** y **Reiniciar** (con confirmación).
+- **Enlace a Internet**: velocidades de descarga y subida, su historial (una vez añadido el dispositivo router), estado, dirección WAN y puerta de enlace. Ajuste: periodo del gráfico.
+- **Dispositivos de red**: los dispositivos conectados ahora, los que se fueron o todos, con su conexión (cable, banda Wi-Fi). Ajuste: qué mostrar.
+
+### Escenas
+
+Disparadores:
+
+- **Internet caído o restablecido**: filtro por el estado. Variables: estado, IP WAN, resumen.
+- **Dispositivo llegó o se fue**: un dispositivo añadido en Gladys, o cualquiera. Variables: nombre, evento, MAC, IP, conexión, resumen.
+- **Nuevo dispositivo en la red**: una dirección MAC nunca vista, una vez (recordada entre reinicios). Filtro: Wi-Fi o cable.
+- **Router reiniciado**: corte de luz, fallo, actualización de firmware. Un reinicio pedido desde Gladys no lo activa.
+- **Actualización de firmware disponible**: el router lo comprueba por sí mismo una vez al día.
+
+Acciones:
+
+- **Leer el estado**: CPU, memoria, temperatura, tiempo en marcha, velocidades, Internet, IP WAN, dispositivos presentes, firmware, actualización disponible y un resumen para un mensaje.
+- **Reiniciar un servicio**: Wi-Fi (todas las bandas), conexión a Internet (una dirección nueva con la mayoría de proveedores), servidor DNS y DHCP.
+- **Buscar actualización de firmware**: pide al router que consulte ahora el servidor de ASUS (hasta un minuto).
+- **Reiniciar el router**: la red e Internet se cortan unos minutos.
+
+Ejemplos: cuando Internet se cae, apagar y volver a encender el enchufe inteligente del módem; cuando llega el teléfono de un niño, encender la luz de la entrada; cada noche a la 1:00, apagar la radio de 5 GHz y volver a encenderla a las 7:00.
+
+### Transporte
+
+Solo local: la integración habla con la interfaz web del router en su red, nada pasa por una nube. El propio router contacta con el servidor de actualizaciones de ASUS al comprobar el firmware.
+
+## Solución de problemas
+
+- **«El router rechaza el nombre de usuario o la contraseña»**: escríbalos de nuevo; la integración espera 15 minutos antes de volver a intentarlo, para que el router no bloquee la cuenta. Guardar la configuración lo intenta en el acto.
+- **«El router bloqueó el inicio de sesión»**: demasiados intentos fallidos (desde Gladys o un navegador). Espere el tiempo indicado.
+- **«no responde como un router ASUS»**: compruebe la dirección y el puerto; con HTTPS activado, escriba `https://` y el puerto de la **Configuración de acceso local**.
+- **«El certificado HTTPS es rechazado»**: desmarque «Verificar el certificado», o instale un certificado válido para la dirección escrita.
+- **Ninguna temperatura**: algunos modelos no indican ninguna; una radio apagada no tiene temperatura.
+- **Un teléfono aparece ausente estando en casa**: aumente el retardo de ausencia; algunos teléfonos ponen su Wi-Fi en reposo mucho tiempo.
+- **Registros**: abra los registros de la integración en Gladys y luego una issue en [GitHub](https://github.com/William-De71/gladys-asuswrt/issues) con las versiones de Gladys y de la integración, el modelo y el firmware del router, y los registros (la contraseña nunca aparece en ellos).

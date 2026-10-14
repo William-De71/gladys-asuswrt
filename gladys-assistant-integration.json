@@ -1,0 +1,1307 @@
+{
+  "manifest_version": 1,
+  "type": "device",
+  "name": "ASUSWRT",
+  "description": {
+    "en": "ASUS routers: health, internet link, Wi-Fi radios, network presence, scenes.",
+    "fr": "Routeurs ASUS : santé, lien Internet, radios Wi-Fi, présence réseau, scènes.",
+    "de": "ASUS-Router: Zustand, Internetverbindung, WLAN-Funk, Anwesenheit im Netz, Szenen.",
+    "es": "Routers ASUS: estado, enlace a Internet, radios Wi-Fi, presencia en red, escenas."
+  },
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/william-de71/gladys-asuswrt:0.1.0",
+  "gladys_version": ">=5.1.0",
+  "categories": ["network"],
+  "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-asuswrt/main/cover.jpg",
+  "transports": ["local"],
+  "config_schema": [
+    {
+      "key": "intro",
+      "type": "section",
+      "label": {
+        "en": "ASUS router account",
+        "fr": "Compte du routeur ASUS",
+        "de": "ASUS-Router-Konto",
+        "es": "Cuenta del router ASUS"
+      },
+      "description": {
+        "en": "The integration logs in to the web interface of the router (stock ASUSWRT or Asuswrt-Merlin) with its administrator account, like the ASUS Router app. Everything stays on your network.",
+        "fr": "L’intégration se connecte à l’interface web du routeur (ASUSWRT d’origine ou Asuswrt-Merlin) avec son compte administrateur, comme l’application ASUS Router. Tout reste sur votre réseau.",
+        "de": "Die Integration meldet sich mit dem Administratorkonto an der Weboberfläche des Routers an (Original-ASUSWRT oder Asuswrt-Merlin), wie die App ASUS Router. Alles bleibt in Ihrem Netzwerk.",
+        "es": "La integración se conecta a la interfaz web del router (ASUSWRT original o Asuswrt-Merlin) con su cuenta de administrador, como la app ASUS Router. Todo se queda en su red."
+      }
+    },
+    {
+      "key": "url",
+      "type": "string",
+      "label": {
+        "en": "Router address",
+        "fr": "Adresse du routeur",
+        "de": "Adresse des Routers",
+        "es": "Dirección del router"
+      },
+      "description": {
+        "en": "The address of its web interface. http:// by default; with HTTPS on, type https:// and its port (8443 by default).",
+        "fr": "L’adresse de son interface web. http:// par défaut ; avec le HTTPS activé, saisissez https:// et son port (8443 par défaut).",
+        "de": "Die Adresse seiner Weboberfläche. Standardmäßig http://; bei aktivem HTTPS https:// und den Port eingeben (standardmäßig 8443).",
+        "es": "La dirección de su interfaz web. http:// por defecto; con HTTPS activado, escriba https:// y su puerto (8443 por defecto)."
+      },
+      "placeholder": {
+        "en": "192.168.50.1",
+        "fr": "192.168.50.1",
+        "de": "192.168.50.1",
+        "es": "192.168.50.1"
+      },
+      "required": true
+    },
+    {
+      "key": "username",
+      "type": "string",
+      "label": {
+        "en": "User name",
+        "fr": "Nom d’utilisateur",
+        "de": "Benutzername",
+        "es": "Nombre de usuario"
+      },
+      "description": {
+        "en": "The administrator account of the router.",
+        "fr": "Le compte administrateur du routeur.",
+        "de": "Das Administratorkonto des Routers.",
+        "es": "La cuenta de administrador del router."
+      },
+      "placeholder": {
+        "en": "admin",
+        "fr": "admin",
+        "de": "admin",
+        "es": "admin"
+      },
+      "required": true
+    },
+    {
+      "key": "password",
+      "type": "secret",
+      "label": {
+        "en": "Password",
+        "fr": "Mot de passe",
+        "de": "Passwort",
+        "es": "Contraseña"
+      },
+      "description": {
+        "en": "Its password. After a few wrong attempts the router locks the login for a while.",
+        "fr": "Son mot de passe. Après quelques essais erronés, le routeur bloque la connexion un moment.",
+        "de": "Sein Passwort. Nach einigen Fehlversuchen sperrt der Router die Anmeldung eine Weile.",
+        "es": "Su contraseña. Tras varios intentos fallidos el router bloquea el inicio de sesión un rato."
+      },
+      "required": true
+    },
+    {
+      "key": "verify_tls",
+      "type": "boolean",
+      "label": {
+        "en": "Verify the certificate",
+        "fr": "Vérifier le certificat",
+        "de": "Zertifikat prüfen",
+        "es": "Verificar el certificado"
+      },
+      "description": {
+        "en": "HTTPS only. Leave unticked with the self-signed certificate of the router; tick it with a valid one.",
+        "fr": "HTTPS seulement. Laissez décoché avec le certificat auto-signé du routeur ; cochez-le avec un certificat valide.",
+        "de": "Nur HTTPS. Mit dem selbstsignierten Zertifikat des Routers nicht ankreuzen; mit einem gültigen ankreuzen.",
+        "es": "Solo HTTPS. Déjelo sin marcar con el certificado autofirmado del router; márquelo con uno válido."
+      },
+      "default": false,
+      "required": false
+    },
+    {
+      "key": "options_intro",
+      "type": "section",
+      "label": {
+        "en": "Options",
+        "fr": "Options",
+        "de": "Optionen",
+        "es": "Opciones"
+      },
+      "description": {
+        "en": "The router, its Wi-Fi radios and the clients of the network appear on the Discovery screen; clients become presence sensors once you add them.",
+        "fr": "Le routeur, ses radios Wi-Fi et les clients du réseau apparaissent dans l’écran de découverte ; les clients deviennent des capteurs de présence une fois ajoutés.",
+        "de": "Der Router, seine WLAN-Funkmodule und die Clients des Netzwerks erscheinen im Erkennungsbildschirm; Clients werden nach dem Hinzufügen zu Anwesenheitssensoren.",
+        "es": "El router, sus radios Wi-Fi y los clientes de la red aparecen en la pantalla de descubrimiento; los clientes se convierten en sensores de presencia al añadirlos."
+      }
+    },
+    {
+      "key": "poll_interval",
+      "type": "number",
+      "label": {
+        "en": "Reading interval (s)",
+        "fr": "Intervalle de lecture (s)",
+        "de": "Leseintervall (s)",
+        "es": "Intervalo de lectura (s)"
+      },
+      "description": {
+        "en": "10 to 300 seconds, 30 by default.",
+        "fr": "De 10 à 300 secondes, 30 par défaut.",
+        "de": "10 bis 300 Sekunden, standardmäßig 30.",
+        "es": "De 10 a 300 segundos, 30 por defecto."
+      },
+      "min": 10,
+      "max": 300,
+      "default": 30,
+      "required": false
+    },
+    {
+      "key": "network_devices",
+      "type": "select",
+      "label": {
+        "en": "Network devices offered",
+        "fr": "Appareils du réseau proposés",
+        "de": "Angebotene Netzwerkgeräte",
+        "es": "Dispositivos de red ofrecidos"
+      },
+      "description": {
+        "en": "Which clients of the router appear on the Discovery screen as presence devices.",
+        "fr": "Les clients du routeur qui apparaissent dans l’écran de découverte comme appareils de présence.",
+        "de": "Welche Clients des Routers im Erkennungsbildschirm als Anwesenheitsgeräte erscheinen.",
+        "es": "Qué clientes del router aparecen en la pantalla de descubrimiento como dispositivos de presencia."
+      },
+      "options": [
+        {
+          "value": "named",
+          "label": {
+            "en": "Those with a name",
+            "fr": "Ceux qui ont un nom",
+            "de": "Die mit einem Namen",
+            "es": "Los que tienen nombre"
+          }
+        },
+        {
+          "value": "all",
+          "label": {
+            "en": "All",
+            "fr": "Tous",
+            "de": "Alle",
+            "es": "Todos"
+          }
+        },
+        {
+          "value": "none",
+          "label": {
+            "en": "None",
+            "fr": "Aucun",
+            "de": "Keine",
+            "es": "Ninguno"
+          }
+        }
+      ],
+      "default": "named",
+      "required": false
+    },
+    {
+      "key": "absence_delay",
+      "type": "number",
+      "label": {
+        "en": "Absence delay (min)",
+        "fr": "Délai d’absence (min)",
+        "de": "Abwesenheitsverzögerung (Min.)",
+        "es": "Retardo de ausencia (min)"
+      },
+      "description": {
+        "en": "A device is absent once it has been gone that long. 1 to 60, 5 by default: a phone asleep leaves the network for a while.",
+        "fr": "Un appareil est absent après ce délai sans réponse. De 1 à 60, 5 par défaut : un téléphone en veille quitte le réseau un moment.",
+        "de": "Ein Gerät gilt nach dieser Zeit ohne Antwort als abwesend. 1 bis 60, standardmäßig 5: Ein schlafendes Telefon verlässt das Netz eine Weile.",
+        "es": "Un dispositivo está ausente tras este tiempo sin respuesta. De 1 a 60, 5 por defecto: un teléfono en reposo sale de la red un rato."
+      },
+      "min": 1,
+      "max": 60,
+      "default": 5,
+      "required": false
+    },
+    {
+      "key": "language",
+      "type": "select",
+      "label": {
+        "en": "Language of the texts",
+        "fr": "Langue des textes",
+        "de": "Sprache der Texte",
+        "es": "Idioma de los textos"
+      },
+      "description": {
+        "en": "Names, states and scene summaries. Automatic: the language of your dashboard, once an ASUSWRT widget has been displayed.",
+        "fr": "Noms, états et résumés des scènes. Automatique : la langue de votre tableau de bord, dès qu’un widget ASUSWRT a été affiché.",
+        "de": "Namen, Zustände und Szenen-Zusammenfassungen. Automatisch: die Sprache Ihres Dashboards, sobald ein ASUSWRT-Widget angezeigt wurde.",
+        "es": "Nombres, estados y resúmenes de escenas. Automático: el idioma de su panel, en cuanto se haya mostrado un widget de ASUSWRT."
+      },
+      "options": [
+        {
+          "value": "auto",
+          "label": {
+            "en": "Automatic",
+            "fr": "Automatique",
+            "de": "Automatisch",
+            "es": "Automático"
+          }
+        },
+        {
+          "value": "en",
+          "label": {
+            "en": "English",
+            "fr": "English",
+            "de": "English",
+            "es": "English"
+          }
+        },
+        {
+          "value": "fr",
+          "label": {
+            "en": "Français",
+            "fr": "Français",
+            "de": "Français",
+            "es": "Français"
+          }
+        },
+        {
+          "value": "de",
+          "label": {
+            "en": "Deutsch",
+            "fr": "Deutsch",
+            "de": "Deutsch",
+            "es": "Deutsch"
+          }
+        },
+        {
+          "value": "es",
+          "label": {
+            "en": "Español",
+            "fr": "Español",
+            "de": "Español",
+            "es": "Español"
+          }
+        }
+      ],
+      "default": "auto",
+      "required": false
+    }
+  ],
+  "actions": [
+    {
+      "key": "test_connection",
+      "label": {
+        "en": "Test the connection",
+        "fr": "Tester la connexion",
+        "de": "Verbindung testen",
+        "es": "Probar la conexión"
+      },
+      "description": {
+        "en": "Logs in to the router and shows its model and firmware.",
+        "fr": "Se connecte au routeur et affiche son modèle et son micrologiciel.",
+        "de": "Meldet sich am Router an und zeigt Modell und Firmware.",
+        "es": "Inicia sesión en el router y muestra su modelo y firmware."
+      },
+      "timeout_seconds": 30
+    },
+    {
+      "key": "forget_network_devices",
+      "label": {
+        "en": "Forget known devices",
+        "fr": "Oublier les appareils connus",
+        "de": "Bekannte Geräte vergessen",
+        "es": "Olvidar dispositivos conocidos"
+      },
+      "description": {
+        "en": "The devices on the network now become the reference of the “new device” trigger.",
+        "fr": "Les appareils présents deviennent la référence du déclencheur « nouvel appareil ».",
+        "de": "Die jetzt vorhandenen Geräte werden zur Referenz des Auslösers „neues Gerät“.",
+        "es": "Los dispositivos presentes pasan a ser la referencia del disparador «nuevo dispositivo»."
+      },
+      "timeout_seconds": 10
+    }
+  ],
+  "widgets": [
+    {
+      "key": "overview",
+      "label": {
+        "en": "ASUS router",
+        "fr": "Routeur ASUS",
+        "de": "ASUS-Router",
+        "es": "Router ASUS"
+      },
+      "description": {
+        "en": "CPU, memory, temperature, clients, internet, uptime, firmware, reboot.",
+        "fr": "CPU, mémoire, température, clients, Internet, micrologiciel, redémarrage.",
+        "de": "CPU, Speicher, Temperatur, Clients, Internet, Firmware, Neustart.",
+        "es": "CPU, memoria, temperatura, clientes, Internet, firmware, reinicio."
+      },
+      "icon": "wifi",
+      "action_timeout_seconds": 90
+    },
+    {
+      "key": "internet",
+      "label": {
+        "en": "Internet link",
+        "fr": "Lien Internet",
+        "de": "Internetverbindung",
+        "es": "Enlace a Internet"
+      },
+      "description": {
+        "en": "Download and upload rates, their history, link status and WAN address.",
+        "fr": "Débits descendant et montant, leur historique, état du lien et adresse WAN.",
+        "de": "Download- und Upload-Rate, ihr Verlauf, Verbindungsstatus und WAN-Adresse.",
+        "es": "Velocidad de descarga y subida, su historial, estado del enlace y dirección WAN."
+      },
+      "icon": "globe",
+      "settings": [
+        {
+          "key": "interval",
+          "type": "select",
+          "label": {
+            "en": "Chart period",
+            "fr": "Période du graphique",
+            "de": "Zeitraum des Diagramms",
+            "es": "Periodo del gráfico"
+          },
+          "options": [
+            {
+              "value": "last-hour",
+              "label": {
+                "en": "Last hour",
+                "fr": "Dernière heure",
+                "de": "Letzte Stunde",
+                "es": "Última hora"
+              }
+            },
+            {
+              "value": "last-twelve-hours",
+              "label": {
+                "en": "Last 12 hours",
+                "fr": "12 dernières heures",
+                "de": "Letzte 12 Stunden",
+                "es": "Últimas 12 horas"
+              }
+            },
+            {
+              "value": "last-day",
+              "label": {
+                "en": "Last 24 hours",
+                "fr": "Dernières 24 heures",
+                "de": "Letzte 24 Stunden",
+                "es": "Últimas 24 horas"
+              }
+            },
+            {
+              "value": "last-three-days",
+              "label": {
+                "en": "Last 3 days",
+                "fr": "3 derniers jours",
+                "de": "Letzte 3 Tage",
+                "es": "Últimos 3 días"
+              }
+            },
+            {
+              "value": "last-week",
+              "label": {
+                "en": "Last 7 days",
+                "fr": "7 derniers jours",
+                "de": "Letzte 7 Tage",
+                "es": "Últimos 7 días"
+              }
+            }
+          ],
+          "default": "last-day",
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "network",
+      "label": {
+        "en": "Network devices",
+        "fr": "Appareils du réseau",
+        "de": "Netzwerkgeräte",
+        "es": "Dispositivos de red"
+      },
+      "description": {
+        "en": "The clients connected now, or the ones that left, with their connection.",
+        "fr": "Les clients connectés en ce moment, ou ceux partis, avec leur connexion.",
+        "de": "Die jetzt verbundenen oder gegangenen Clients, mit ihrer Verbindung.",
+        "es": "Los clientes conectados ahora, o los que se fueron, con su conexión."
+      },
+      "icon": "smartphone",
+      "settings": [
+        {
+          "key": "show",
+          "type": "select",
+          "label": {
+            "en": "Show",
+            "fr": "Afficher",
+            "de": "Anzeigen",
+            "es": "Mostrar"
+          },
+          "options": [
+            {
+              "value": "present",
+              "label": {
+                "en": "Connected devices",
+                "fr": "Appareils connectés",
+                "de": "Verbundene Geräte",
+                "es": "Dispositivos conectados"
+              }
+            },
+            {
+              "value": "absent",
+              "label": {
+                "en": "Devices that left",
+                "fr": "Appareils partis",
+                "de": "Gegangene Geräte",
+                "es": "Dispositivos que se fueron"
+              }
+            },
+            {
+              "value": "all",
+              "label": {
+                "en": "All known devices",
+                "fr": "Tous les appareils connus",
+                "de": "Alle bekannten Geräte",
+                "es": "Todos los conocidos"
+              }
+            }
+          ],
+          "default": "present",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "scene_triggers": [
+    {
+      "key": "internet_status_changed",
+      "label": {
+        "en": "ASUS: internet down or back",
+        "fr": "ASUS : Internet coupé ou rétabli",
+        "de": "ASUS: Internet weg oder zurück",
+        "es": "ASUS: Internet caído o restablecido"
+      },
+      "description": {
+        "en": "The internet connection of the router went down or came back.",
+        "fr": "La connexion Internet du routeur s’est coupée ou est revenue.",
+        "de": "Die Internetverbindung des Routers ist ausgefallen oder zurückgekehrt.",
+        "es": "La conexión a Internet del router se cayó o volvió."
+      },
+      "fields": [
+        {
+          "key": "status",
+          "type": "select",
+          "label": {
+            "en": "Status",
+            "fr": "État",
+            "de": "Status",
+            "es": "Estado"
+          },
+          "description": {
+            "en": "Leave empty for both.",
+            "fr": "Laissez vide pour les deux.",
+            "de": "Leer lassen für beide.",
+            "es": "Déjelo vacío para ambos."
+          },
+          "options": [
+            {
+              "value": "disconnected",
+              "label": {
+                "en": "Down",
+                "fr": "Coupé",
+                "de": "Getrennt",
+                "es": "Caído"
+              }
+            },
+            {
+              "value": "connected",
+              "label": {
+                "en": "Back",
+                "fr": "Rétabli",
+                "de": "Zurück",
+                "es": "Restablecido"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "status",
+          "type": "string",
+          "label": {
+            "en": "Status",
+            "fr": "État",
+            "de": "Status",
+            "es": "Estado"
+          },
+          "description": {
+            "en": "connected or disconnected.",
+            "fr": "connected ou disconnected.",
+            "de": "connected oder disconnected.",
+            "es": "connected o disconnected."
+          }
+        },
+        {
+          "key": "previous_status",
+          "type": "string",
+          "label": {
+            "en": "Previous status",
+            "fr": "État précédent",
+            "de": "Vorheriger Status",
+            "es": "Estado anterior"
+          }
+        },
+        {
+          "key": "wan_ip",
+          "type": "string",
+          "label": {
+            "en": "WAN IP address",
+            "fr": "Adresse IP WAN",
+            "de": "WAN-IP-Adresse",
+            "es": "Dirección IP WAN"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "network_device_presence",
+      "label": {
+        "en": "ASUS: device arrived or left",
+        "fr": "ASUS : appareil arrivé ou parti",
+        "de": "ASUS: Gerät gekommen oder gegangen",
+        "es": "ASUS: dispositivo llegó o se fue"
+      },
+      "description": {
+        "en": "A device added in Gladys is connected to the router again, or has been gone for the absence delay.",
+        "fr": "Un appareil ajouté dans Gladys est de nouveau connecté au routeur, ou ne l’est plus depuis le délai d’absence.",
+        "de": "Ein in Gladys hinzugefügtes Gerät ist wieder mit dem Router verbunden oder seit der Abwesenheitsverzögerung weg.",
+        "es": "Un dispositivo añadido en Gladys vuelve a estar conectado al router, o lleva ausente el retardo de ausencia."
+      },
+      "fields": [
+        {
+          "key": "device",
+          "type": "select",
+          "source": "devices",
+          "label": {
+            "en": "Device",
+            "fr": "Appareil",
+            "de": "Gerät",
+            "es": "Dispositivo"
+          },
+          "description": {
+            "en": "A network device. Leave empty for any.",
+            "fr": "Un appareil du réseau. Laissez vide pour tous.",
+            "de": "Ein Netzwerkgerät. Leer lassen für jedes.",
+            "es": "Un dispositivo de red. Vacío para cualquiera."
+          },
+          "required": false
+        },
+        {
+          "key": "event",
+          "type": "select",
+          "label": {
+            "en": "Event",
+            "fr": "Événement",
+            "de": "Ereignis",
+            "es": "Evento"
+          },
+          "description": {
+            "en": "Leave empty for both.",
+            "fr": "Laissez vide pour les deux.",
+            "de": "Leer lassen für beide.",
+            "es": "Déjelo vacío para ambos."
+          },
+          "options": [
+            {
+              "value": "arrived",
+              "label": {
+                "en": "Arrived",
+                "fr": "Arrivé",
+                "de": "Gekommen",
+                "es": "Llegó"
+              }
+            },
+            {
+              "value": "left",
+              "label": {
+                "en": "Left",
+                "fr": "Parti",
+                "de": "Gegangen",
+                "es": "Se fue"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "device_name",
+          "type": "string",
+          "label": {
+            "en": "Device name",
+            "fr": "Nom de l’appareil",
+            "de": "Gerätename",
+            "es": "Nombre del dispositivo"
+          }
+        },
+        {
+          "key": "event",
+          "type": "string",
+          "label": {
+            "en": "Event",
+            "fr": "Événement",
+            "de": "Ereignis",
+            "es": "Evento"
+          },
+          "description": {
+            "en": "arrived or left.",
+            "fr": "arrived ou left.",
+            "de": "arrived oder left.",
+            "es": "arrived o left."
+          }
+        },
+        {
+          "key": "mac",
+          "type": "string",
+          "label": {
+            "en": "MAC address",
+            "fr": "Adresse MAC",
+            "de": "MAC-Adresse",
+            "es": "Dirección MAC"
+          }
+        },
+        {
+          "key": "ip",
+          "type": "string",
+          "label": {
+            "en": "IP address",
+            "fr": "Adresse IP",
+            "de": "IP-Adresse",
+            "es": "Dirección IP"
+          }
+        },
+        {
+          "key": "connection",
+          "type": "string",
+          "label": {
+            "en": "Connection",
+            "fr": "Connexion",
+            "de": "Verbindung",
+            "es": "Conexión"
+          },
+          "description": {
+            "en": "Wired, Wi-Fi 5 GHz…",
+            "fr": "Filaire, Wi-Fi 5 GHz…",
+            "de": "Kabel, WLAN 5 GHz…",
+            "es": "Por cable, Wi-Fi 5 GHz…"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "new_network_device",
+      "label": {
+        "en": "ASUS: new device on the network",
+        "fr": "ASUS : nouvel appareil sur le réseau",
+        "de": "ASUS: neues Gerät im Netzwerk",
+        "es": "ASUS: nuevo dispositivo en la red"
+      },
+      "description": {
+        "en": "A MAC address never seen before connects to the router.",
+        "fr": "Une adresse MAC jamais vue se connecte au routeur.",
+        "de": "Eine nie gesehene MAC-Adresse verbindet sich mit dem Router.",
+        "es": "Una dirección MAC nunca vista se conecta al router."
+      },
+      "fields": [
+        {
+          "key": "medium",
+          "type": "select",
+          "label": {
+            "en": "Connection",
+            "fr": "Connexion",
+            "de": "Verbindung",
+            "es": "Conexión"
+          },
+          "description": {
+            "en": "Leave empty for any.",
+            "fr": "Laissez vide pour toutes.",
+            "de": "Leer lassen für jede.",
+            "es": "Déjelo vacío para cualquiera."
+          },
+          "options": [
+            {
+              "value": "wifi",
+              "label": {
+                "en": "Wi-Fi",
+                "fr": "Wi-Fi",
+                "de": "WLAN",
+                "es": "Wi-Fi"
+              }
+            },
+            {
+              "value": "wired",
+              "label": {
+                "en": "Wired",
+                "fr": "Filaire",
+                "de": "Kabel",
+                "es": "Por cable"
+              }
+            }
+          ],
+          "required": false
+        }
+      ],
+      "variables": [
+        {
+          "key": "mac",
+          "type": "string",
+          "label": {
+            "en": "MAC address",
+            "fr": "Adresse MAC",
+            "de": "MAC-Adresse",
+            "es": "Dirección MAC"
+          }
+        },
+        {
+          "key": "ip",
+          "type": "string",
+          "label": {
+            "en": "IP address",
+            "fr": "Adresse IP",
+            "de": "IP-Adresse",
+            "es": "Dirección IP"
+          }
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "label": {
+            "en": "Name",
+            "fr": "Nom",
+            "de": "Name",
+            "es": "Nombre"
+          }
+        },
+        {
+          "key": "vendor",
+          "type": "string",
+          "label": {
+            "en": "Manufacturer",
+            "fr": "Fabricant",
+            "de": "Hersteller",
+            "es": "Fabricante"
+          }
+        },
+        {
+          "key": "medium",
+          "type": "string",
+          "label": {
+            "en": "Connection type",
+            "fr": "Type de connexion",
+            "de": "Verbindungsart",
+            "es": "Tipo de conexión"
+          },
+          "description": {
+            "en": "wifi, wired or unknown.",
+            "fr": "wifi, wired ou unknown.",
+            "de": "wifi, wired oder unknown.",
+            "es": "wifi, wired o unknown."
+          }
+        },
+        {
+          "key": "connection",
+          "type": "string",
+          "label": {
+            "en": "Connection",
+            "fr": "Connexion",
+            "de": "Verbindung",
+            "es": "Conexión"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "router_rebooted",
+      "label": {
+        "en": "ASUS: router rebooted",
+        "fr": "ASUS : routeur redémarré",
+        "de": "ASUS: Router neu gestartet",
+        "es": "ASUS: router reiniciado"
+      },
+      "description": {
+        "en": "The router started again (power cut, crash, firmware update). Not for a reboot asked from Gladys.",
+        "fr": "Le routeur a redémarré (coupure, plantage, mise à jour). Pas pour un redémarrage demandé depuis Gladys.",
+        "de": "Der Router ist neu gestartet (Stromausfall, Absturz, Update). Nicht bei einem Neustart aus Gladys.",
+        "es": "El router se reinició (corte, fallo, actualización). No para un reinicio pedido desde Gladys."
+      },
+      "fields": [],
+      "variables": [
+        {
+          "key": "model",
+          "type": "string",
+          "label": {
+            "en": "Model",
+            "fr": "Modèle",
+            "de": "Modell",
+            "es": "Modelo"
+          }
+        },
+        {
+          "key": "firmware",
+          "type": "string",
+          "label": {
+            "en": "Firmware",
+            "fr": "Micrologiciel",
+            "de": "Firmware",
+            "es": "Firmware"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    },
+    {
+      "key": "firmware_update_available",
+      "label": {
+        "en": "ASUS: firmware update available",
+        "fr": "ASUS : mise à jour disponible",
+        "de": "ASUS: Firmware-Update verfügbar",
+        "es": "ASUS: actualización disponible"
+      },
+      "description": {
+        "en": "The router found a new firmware (it checks once a day, or on the “check” action).",
+        "fr": "Le routeur a trouvé un nouveau micrologiciel (il vérifie une fois par jour, ou sur l’action « vérifier »).",
+        "de": "Der Router hat eine neue Firmware gefunden (er prüft einmal täglich oder mit der Aktion „prüfen“).",
+        "es": "El router encontró un firmware nuevo (lo comprueba una vez al día, o con la acción «comprobar»)."
+      },
+      "fields": [],
+      "variables": [
+        {
+          "key": "current_version",
+          "type": "string",
+          "label": {
+            "en": "Current version",
+            "fr": "Version actuelle",
+            "de": "Aktuelle Version",
+            "es": "Versión actual"
+          }
+        },
+        {
+          "key": "new_version",
+          "type": "string",
+          "label": {
+            "en": "New version",
+            "fr": "Nouvelle version",
+            "de": "Neue Version",
+            "es": "Versión nueva"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          },
+          "description": {
+            "en": "A sentence ready to put in a message.",
+            "fr": "Une phrase prête à mettre dans un message.",
+            "de": "Ein fertiger Satz für eine Nachricht.",
+            "es": "Una frase lista para poner en un mensaje."
+          }
+        }
+      ]
+    }
+  ],
+  "scene_actions": [
+    {
+      "key": "get_status",
+      "label": {
+        "en": "ASUS: read the status",
+        "fr": "ASUS : lire l’état",
+        "de": "ASUS: Status lesen",
+        "es": "ASUS: leer el estado"
+      },
+      "description": {
+        "en": "The state of the router, for a message or a condition.",
+        "fr": "L’état du routeur, pour un message ou une condition.",
+        "de": "Der Zustand des Routers, für eine Nachricht oder eine Bedingung.",
+        "es": "El estado del router, para un mensaje o una condición."
+      },
+      "timeout_seconds": 30,
+      "outputs": [
+        {
+          "key": "cpu",
+          "type": "number",
+          "label": {
+            "en": "CPU (%)",
+            "fr": "CPU (%)",
+            "de": "CPU (%)",
+            "es": "CPU (%)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "memory",
+          "type": "number",
+          "label": {
+            "en": "Memory (%)",
+            "fr": "Mémoire (%)",
+            "de": "Speicher (%)",
+            "es": "Memoria (%)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "temperature",
+          "type": "number",
+          "label": {
+            "en": "Temperature (°C)",
+            "fr": "Température (°C)",
+            "de": "Temperatur (°C)",
+            "es": "Temperatura (°C)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "uptime_days",
+          "type": "number",
+          "label": {
+            "en": "Uptime (days)",
+            "fr": "En marche depuis (jours)",
+            "de": "Betriebszeit (Tage)",
+            "es": "En marcha desde (días)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "download",
+          "type": "number",
+          "label": {
+            "en": "Download (Mbit/s)",
+            "fr": "Réception (Mbit/s)",
+            "de": "Download (Mbit/s)",
+            "es": "Descarga (Mbit/s)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "upload",
+          "type": "number",
+          "label": {
+            "en": "Upload (Mbit/s)",
+            "fr": "Envoi (Mbit/s)",
+            "de": "Upload (Mbit/s)",
+            "es": "Subida (Mbit/s)"
+          },
+          "description": {
+            "en": "-1 when unknown.",
+            "fr": "-1 si inconnu.",
+            "de": "-1, wenn unbekannt.",
+            "es": "-1 si se desconoce."
+          }
+        },
+        {
+          "key": "internet",
+          "type": "string",
+          "label": {
+            "en": "Internet",
+            "fr": "Internet",
+            "de": "Internet",
+            "es": "Internet"
+          },
+          "description": {
+            "en": "connected, connecting, disconnected or unknown.",
+            "fr": "connected, connecting, disconnected ou unknown.",
+            "de": "connected, connecting, disconnected oder unknown.",
+            "es": "connected, connecting, disconnected o unknown."
+          }
+        },
+        {
+          "key": "wan_ip",
+          "type": "string",
+          "label": {
+            "en": "WAN IP address",
+            "fr": "Adresse IP WAN",
+            "de": "WAN-IP-Adresse",
+            "es": "Dirección IP WAN"
+          }
+        },
+        {
+          "key": "devices_present",
+          "type": "number",
+          "label": {
+            "en": "Devices on the network",
+            "fr": "Appareils sur le réseau",
+            "de": "Geräte im Netzwerk",
+            "es": "Dispositivos en la red"
+          }
+        },
+        {
+          "key": "firmware",
+          "type": "string",
+          "label": {
+            "en": "Firmware",
+            "fr": "Micrologiciel",
+            "de": "Firmware",
+            "es": "Firmware"
+          }
+        },
+        {
+          "key": "update_available",
+          "type": "boolean",
+          "label": {
+            "en": "Update available",
+            "fr": "Mise à jour disponible",
+            "de": "Update verfügbar",
+            "es": "Actualización disponible"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          }
+        }
+      ]
+    },
+    {
+      "key": "restart_service",
+      "label": {
+        "en": "ASUS: restart a service",
+        "fr": "ASUS : redémarrer un service",
+        "de": "ASUS: Dienst neu starten",
+        "es": "ASUS: reiniciar un servicio"
+      },
+      "description": {
+        "en": "Restarts the Wi-Fi, the internet connection or the DNS server of the router.",
+        "fr": "Redémarre le Wi-Fi, la connexion Internet ou le serveur DNS du routeur.",
+        "de": "Startet das WLAN, die Internetverbindung oder den DNS-Server des Routers neu.",
+        "es": "Reinicia el Wi-Fi, la conexión a Internet o el servidor DNS del router."
+      },
+      "timeout_seconds": 30,
+      "fields": [
+        {
+          "key": "service",
+          "type": "select",
+          "label": {
+            "en": "Service",
+            "fr": "Service",
+            "de": "Dienst",
+            "es": "Servicio"
+          },
+          "options": [
+            {
+              "value": "wireless",
+              "label": {
+                "en": "Wi-Fi (every band)",
+                "fr": "Wi-Fi (toutes les bandes)",
+                "de": "WLAN (alle Bänder)",
+                "es": "Wi-Fi (todas las bandas)"
+              }
+            },
+            {
+              "value": "internet",
+              "label": {
+                "en": "Internet connection",
+                "fr": "Connexion Internet",
+                "de": "Internetverbindung",
+                "es": "Conexión a Internet"
+              }
+            },
+            {
+              "value": "dns",
+              "label": {
+                "en": "DNS and DHCP server",
+                "fr": "Serveur DNS et DHCP",
+                "de": "DNS- und DHCP-Server",
+                "es": "Servidor DNS y DHCP"
+              }
+            }
+          ],
+          "required": true
+        }
+      ],
+      "outputs": [
+        {
+          "key": "service",
+          "type": "string",
+          "label": {
+            "en": "Service",
+            "fr": "Service",
+            "de": "Dienst",
+            "es": "Servicio"
+          }
+        }
+      ]
+    },
+    {
+      "key": "check_updates",
+      "label": {
+        "en": "ASUS: check for a firmware update",
+        "fr": "ASUS : vérifier les mises à jour",
+        "de": "ASUS: nach Firmware-Update suchen",
+        "es": "ASUS: buscar actualización de firmware"
+      },
+      "description": {
+        "en": "Asks the router to check the ASUS server now, and gives the result.",
+        "fr": "Demande au routeur de vérifier tout de suite le serveur ASUS, et donne le résultat.",
+        "de": "Lässt den Router jetzt den ASUS-Server prüfen und gibt das Ergebnis zurück.",
+        "es": "Pide al router que consulte ahora el servidor de ASUS y devuelve el resultado."
+      },
+      "timeout_seconds": 90,
+      "outputs": [
+        {
+          "key": "update_available",
+          "type": "boolean",
+          "label": {
+            "en": "Update available",
+            "fr": "Mise à jour disponible",
+            "de": "Update verfügbar",
+            "es": "Actualización disponible"
+          }
+        },
+        {
+          "key": "current_version",
+          "type": "string",
+          "label": {
+            "en": "Current version",
+            "fr": "Version actuelle",
+            "de": "Aktuelle Version",
+            "es": "Versión actual"
+          }
+        },
+        {
+          "key": "new_version",
+          "type": "string",
+          "label": {
+            "en": "New version",
+            "fr": "Nouvelle version",
+            "de": "Neue Version",
+            "es": "Versión nueva"
+          }
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "label": {
+            "en": "Summary",
+            "fr": "Résumé",
+            "de": "Zusammenfassung",
+            "es": "Resumen"
+          }
+        }
+      ]
+    },
+    {
+      "key": "reboot",
+      "label": {
+        "en": "ASUS: reboot the router",
+        "fr": "ASUS : redémarrer le routeur",
+        "de": "ASUS: Router neu starten",
+        "es": "ASUS: reiniciar el router"
+      },
+      "description": {
+        "en": "The network and the internet are cut for a few minutes.",
+        "fr": "Le réseau et Internet sont coupés quelques minutes.",
+        "de": "Netzwerk und Internet sind einige Minuten unterbrochen.",
+        "es": "La red e Internet se cortan unos minutos."
+      },
+      "timeout_seconds": 15
+    }
+  ]
+}

@@ -1,0 +1,481 @@
+{
+  "devices": {
+    "router": {
+      "external_id": "ext:asuswrt:router:main",
+      "should_poll": false,
+      "params": ["MAC", "FIRMWARE"],
+      "features": [
+        {
+          "external_id": "ext:asuswrt:router:main:cpu",
+          "category": "level-sensor",
+          "type": "decimal",
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:memory",
+          "category": "level-sensor",
+          "type": "decimal",
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:temperature_cpu",
+          "category": "device-temperature-sensor",
+          "type": "decimal",
+          "unit": "celsius",
+          "min": 0,
+          "max": 150,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:temperature_2g",
+          "category": "device-temperature-sensor",
+          "type": "decimal",
+          "unit": "celsius",
+          "min": 0,
+          "max": 150,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:temperature_5g",
+          "category": "device-temperature-sensor",
+          "type": "decimal",
+          "unit": "celsius",
+          "min": 0,
+          "max": 150,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:temperature_5g2",
+          "category": "device-temperature-sensor",
+          "type": "decimal",
+          "unit": "celsius",
+          "min": 0,
+          "max": 150,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:temperature_6g",
+          "category": "device-temperature-sensor",
+          "type": "decimal",
+          "unit": "celsius",
+          "min": 0,
+          "max": 150,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:uptime",
+          "category": "duration",
+          "type": "decimal",
+          "unit": "days",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:download",
+          "category": "datarate",
+          "type": "rate",
+          "unit": "megabits-per-second",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:upload",
+          "category": "datarate",
+          "type": "rate",
+          "unit": "megabits-per-second",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:internet",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:wan_ip",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:clients",
+          "category": "counter-sensor",
+          "type": "integer",
+          "min": 0,
+          "max": 10000,
+          "read_only": true,
+          "has_feedback": false
+        },
+        {
+          "external_id": "ext:asuswrt:router:main:firmware",
+          "category": "text",
+          "type": "text",
+          "min": 0,
+          "max": 0,
+          "read_only": true,
+          "has_feedback": false
+        }
+      ]
+    },
+    "radio": {
+      "external_id": "ext:asuswrt:radio:wl1",
+      "should_poll": false,
+      "params": ["WIRELESS_UNIT"],
+      "features": [
+        {
+          "external_id": "ext:asuswrt:radio:wl1:enabled",
+          "category": "switch",
+          "type": "binary",
+          "min": 0,
+          "max": 1,
+          "read_only": false,
+          "has_feedback": true
+        }
+      ]
+    },
+    "client": {
+      "external_id": "ext:asuswrt:client:a483e7123456",
+      "should_poll": false,
+      "params": ["MAC", "VENDOR"],
+      "features": [
+        {
+          "external_id": "ext:asuswrt:client:a483e7123456:presence",
+          "category": "presence-sensor",
+          "type": "push",
+          "min": 0,
+          "max": 1,
+          "read_only": true,
+          "has_feedback": false
+        }
+      ]
+    }
+  },
+  "manifest": {
+    "actions": ["test_connection", "forget_network_devices"],
+    "config_schema": [
+      {
+        "key": "intro",
+        "type": "section"
+      },
+      {
+        "key": "url",
+        "type": "string"
+      },
+      {
+        "key": "username",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "type": "secret"
+      },
+      {
+        "key": "verify_tls",
+        "type": "boolean"
+      },
+      {
+        "key": "options_intro",
+        "type": "section"
+      },
+      {
+        "key": "poll_interval",
+        "type": "number"
+      },
+      {
+        "key": "network_devices",
+        "type": "select"
+      },
+      {
+        "key": "absence_delay",
+        "type": "number"
+      },
+      {
+        "key": "language",
+        "type": "select"
+      }
+    ],
+    "scene_triggers": [
+      {
+        "key": "internet_status_changed",
+        "fields": [
+          {
+            "key": "status",
+            "options": ["disconnected", "connected"]
+          }
+        ],
+        "variables": [
+          {
+            "key": "status",
+            "type": "string"
+          },
+          {
+            "key": "previous_status",
+            "type": "string"
+          },
+          {
+            "key": "wan_ip",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "network_device_presence",
+        "fields": [
+          {
+            "key": "device",
+            "options": []
+          },
+          {
+            "key": "event",
+            "options": ["arrived", "left"]
+          }
+        ],
+        "variables": [
+          {
+            "key": "device_name",
+            "type": "string"
+          },
+          {
+            "key": "event",
+            "type": "string"
+          },
+          {
+            "key": "mac",
+            "type": "string"
+          },
+          {
+            "key": "ip",
+            "type": "string"
+          },
+          {
+            "key": "connection",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "new_network_device",
+        "fields": [
+          {
+            "key": "medium",
+            "options": ["wifi", "wired"]
+          }
+        ],
+        "variables": [
+          {
+            "key": "mac",
+            "type": "string"
+          },
+          {
+            "key": "ip",
+            "type": "string"
+          },
+          {
+            "key": "name",
+            "type": "string"
+          },
+          {
+            "key": "vendor",
+            "type": "string"
+          },
+          {
+            "key": "medium",
+            "type": "string"
+          },
+          {
+            "key": "connection",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "router_rebooted",
+        "fields": [],
+        "variables": [
+          {
+            "key": "model",
+            "type": "string"
+          },
+          {
+            "key": "firmware",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "firmware_update_available",
+        "fields": [],
+        "variables": [
+          {
+            "key": "current_version",
+            "type": "string"
+          },
+          {
+            "key": "new_version",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "scene_actions": [
+      {
+        "key": "get_status",
+        "fields": [],
+        "outputs": [
+          {
+            "key": "cpu",
+            "type": "number"
+          },
+          {
+            "key": "memory",
+            "type": "number"
+          },
+          {
+            "key": "temperature",
+            "type": "number"
+          },
+          {
+            "key": "uptime_days",
+            "type": "number"
+          },
+          {
+            "key": "download",
+            "type": "number"
+          },
+          {
+            "key": "upload",
+            "type": "number"
+          },
+          {
+            "key": "internet",
+            "type": "string"
+          },
+          {
+            "key": "wan_ip",
+            "type": "string"
+          },
+          {
+            "key": "devices_present",
+            "type": "number"
+          },
+          {
+            "key": "firmware",
+            "type": "string"
+          },
+          {
+            "key": "update_available",
+            "type": "boolean"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "restart_service",
+        "fields": ["service"],
+        "outputs": [
+          {
+            "key": "service",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "check_updates",
+        "fields": [],
+        "outputs": [
+          {
+            "key": "update_available",
+            "type": "boolean"
+          },
+          {
+            "key": "current_version",
+            "type": "string"
+          },
+          {
+            "key": "new_version",
+            "type": "string"
+          },
+          {
+            "key": "summary",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "key": "reboot",
+        "fields": [],
+        "outputs": []
+      }
+    ],
+    "widgets": [
+      {
+        "key": "overview",
+        "settings": [],
+        "options": {}
+      },
+      {
+        "key": "internet",
+        "settings": ["interval"],
+        "options": {
+          "interval": ["last-hour", "last-twelve-hours", "last-day", "last-three-days", "last-week"]
+        }
+      },
+      {
+        "key": "network",
+        "settings": ["show"],
+        "options": {
+          "show": ["present", "absent", "all"]
+        }
+      }
+    ]
+  }
+}

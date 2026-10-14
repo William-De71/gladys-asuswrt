@@ -1,0 +1,15 @@
+Gladys ASUSWRT integration
+Copyright 2026 William Deren
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The router client (src/asus-api.js, src/read.js) is a JavaScript rewrite after
+the asusrouter Python library, Copyright Yevhenii Vaskivskyi and contributors,
+licensed under the Apache License, Version 2.0
+(https://github.com/Vaskivskyi/asusrouter). No file of it is included; the
+protocol details (endpoints, hooks, answer formats, error codes) come from it.
+
+ASUS, ASUSWRT and the ASUS logo are trademarks of ASUSTeK Computer Inc.
+Asuswrt-Merlin is a project of Eric Sauvageau. This community integration is
+not affiliated with, endorsed or sponsored by ASUSTeK Computer Inc. or the
+Asuswrt-Merlin project.

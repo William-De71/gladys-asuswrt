@@ -8,8 +8,8 @@
     "de": "ASUS-Router: Zustand, Internetverbindung, WLAN-Funk, Anwesenheit im Netz, Szenen.",
     "es": "Routers ASUS: estado, enlace a Internet, radios Wi-Fi, presencia en red, escenas."
   },
-  "version": "0.1.0",
-  "docker_image": "ghcr.io/william-de71/gladys-asuswrt:0.1.0",
+  "version": "0.1.1",
+  "docker_image": "ghcr.io/william-de71/gladys-asuswrt:0.1.1",
   "gladys_version": ">=5.1.0",
   "categories": ["network"],
   "cover_image": "https://raw.githubusercontent.com/William-De71/gladys-asuswrt/main/cover.jpg",

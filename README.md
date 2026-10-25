@@ -5,7 +5,7 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Latest release](https://img.shields.io/github/v/release/William-De71/gladys-asuswrt?sort=semver)](https://github.com/William-De71/gladys-asuswrt/releases)
 [![CI](https://img.shields.io/github/actions/workflow/status/William-De71/gladys-asuswrt/release.yml?branch=main&label=CI)](https://github.com/William-De71/gladys-asuswrt/actions/workflows/release.yml)
-[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.1.0-2f6fb5)](https://gladysassistant.com)
+[![Gladys](https://img.shields.io/badge/Gladys-%E2%89%A5%205.3.0-2f6fb5)](https://gladysassistant.com)
 
 ![ASUSWRT for Gladys Assistant](cover.jpg)
 
@@ -95,7 +95,7 @@ A change made by Gladys itself (a radio switched, a reboot or a firmware check r
 
 ## Requirements
 
-- Gladys Assistant **5.1.0** or later (widgets and scenes): older instances cannot install the integration.
+- Gladys Assistant **5.3.0** or later (catalog keywords and countries, widgets and scenes): older instances cannot install the integration.
 - An ASUS router with the ASUSWRT web interface (stock firmware 3.0.0.4.386 or later, 3.0.0.6, or Asuswrt-Merlin), in router mode, and its administrator account. AiMesh nodes are left out of the client list (the main router knows every client).
 
 ## Installation

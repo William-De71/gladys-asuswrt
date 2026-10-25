@@ -16,7 +16,7 @@ La imagen de arriba es una ilustración generada, no una captura de pantalla.
 
 ## Requisitos
 
-- Gladys Assistant 5.1.0 o posterior.
+- Gladys Assistant 5.3.0 o posterior.
 - Un router ASUS en modo router, con la interfaz web ASUSWRT (firmware original 3.0.0.4.386 o posterior, 3.0.0.6, o Asuswrt-Merlin). La integración habla con el router principal: los nodos AiMesh se excluyen de la lista de clientes, el router principal conoce todos los clientes.
 - La cuenta de administrador del router (la de su interfaz web). La integración inicia sesión como la app ASUS Router: no le cierra la sesión de la interfaz web.
 - Gladys debe llegar al router: su dirección en la red local (`192.168.50.1`, `192.168.1.1`, `router.asus.com`). Si activó HTTPS para el acceso local (**Administración > Sistema > Configuración de acceso local**), escriba `https://` y su puerto (8443 por defecto).

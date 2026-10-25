@@ -5,6 +5,12 @@ follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions
 follow [Semantic Versioning](https://semver.org/). This file is generated at
 each release from the Conventional Commits: do not edit it by hand.
 
+## [0.2.0] - 2026-10-25
+
+### Added
+
+- require Gladys 5.3 and declare catalog keywords ([e93b25d](https://github.com/William-De71/gladys-asuswrt/commit/e93b25d8dd4ab8497d1fad6bdd17b9592a44c52d))
+
 ## [0.1.1] - 2026-10-24
 
 ### Security
@@ -24,5 +30,6 @@ each release from the Conventional Commits: do not edit it by hand.
 - Local transport only: the integration logs in to the web interface of the router on the LAN, keeps its session, and never retries a refused password before 15 minutes so that the router does not lock the account.
 - English, French, German and Spanish everywhere: settings, devices, widgets, scenes and documentation.
 
+[0.2.0]: https://github.com/William-De71/gladys-asuswrt/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/William-De71/gladys-asuswrt/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/William-De71/gladys-asuswrt/releases/tag/v0.1.0
